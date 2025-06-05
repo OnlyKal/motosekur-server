@@ -50,9 +50,10 @@ class RegisterView(APIView):
 
 # READ — List all motards  GET
 class MotardListView(generics.ListAPIView):
-    queryset = Motard.objects.all()
     serializer_class = MotardSerializer
     permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return Motard.objects.filter(type_user='motard')
 
 # READ — Retrieve single motard by ID GET
 class MotardDetailView(generics.RetrieveAPIView):
@@ -93,19 +94,6 @@ class MotardDeleteView(generics.DestroyAPIView):
             {"message": "Motard supprimé avec succès."},
             status=status.HTTP_200_OK
         )
-
-# class MotardUpdateValidationView(generics.UpdateAPIView):
-#     queryset = Motard.objects.all()
-#     serializer_class = MotardValidationSerializer
-#     permission_classes = [IsAuthenticated]
-#     lookup_field = 'id'
-
-#     def update(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response({'message': 'Validation réussie.', 'status': 200})
-#         return Response({'message': 'Échec.', 'errors': serializer.errors, 'status': 400}, status=400)
 
 class MotardUpdateValidationView(generics.UpdateAPIView):
     queryset = Motard.objects.all()

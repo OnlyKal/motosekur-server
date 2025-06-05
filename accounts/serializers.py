@@ -15,6 +15,7 @@ class MotardSerializer(serializers.ModelSerializer):
             'username',
             'matricule',
             'email',
+            'type_user',
             'nom',
             'prenom',
             'date_naissance',

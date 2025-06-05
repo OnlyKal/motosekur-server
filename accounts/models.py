@@ -14,7 +14,15 @@ class Motard(AbstractUser):
     photo_identite = models.ImageField("Photo d'identité récente", upload_to='photos_identite/%Y/', null=True, blank=True)
     autre_piece = models.ImageField("Autre pièce", upload_to='pieces_identite/%Y/', null=True, blank=True)
     profile = models.ImageField("Photo de profil", upload_to='profiles/%Y/', null=True, blank=True)
+    # type_user=()
     is_validated = models.BooleanField("Compte validé", default=False)
+    TYPE_USER_CHOICES = (
+        ('motard', 'Motard'),
+        ('motosekur', 'Moto Sekur'),
+        ('autre', 'Autre'),
+    )
+    type_user = models.CharField("Type d'utilisateur", max_length=20, choices=TYPE_USER_CHOICES, default='motard')
+
     
     def _profile(self):
         if self.profile:

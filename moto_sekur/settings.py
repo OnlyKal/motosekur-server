@@ -25,7 +25,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-CSRF_TRUSTED_ORIGINS=['http://127.0.0.1:8001','http://localhost:8001']
+
 
 
 # Application definition
@@ -33,6 +33,7 @@ CSRF_TRUSTED_ORIGINS=['http://127.0.0.1:8001','http://localhost:8001']
 INSTALLED_APPS = [
     "admin_interface",
     "colorfield",
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,9 +77,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True 
 
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+#     "http://127.0.0.1:5500",
+# ]
 
 ROOT_URLCONF = 'moto_sekur.urls'
 
@@ -188,5 +196,16 @@ CORS_ALLOW_CREDENTIALS = True
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 ASGI_APPLICATION = "moto_sekur.asgi.application"
+
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True #jfiuhdfoiu
+EMAIL_HOST_USER = 'bihangojustin@gmail.com'
+EMAIL_HOST_PASSWORD = 'kcqr pvrx eoox banm'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+

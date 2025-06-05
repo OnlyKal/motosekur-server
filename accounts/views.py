@@ -2,11 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework import status, generics
+
+from motos.models import User
 from .models import Motard
 from .serializers import IDcardImageUploadSerializer, MotardSerializer, MotardValidationSerializer, ProfileImageUploadSerializer
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import AccessToken
-
+from funcs.base64 import SendMail
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
@@ -92,6 +94,19 @@ class MotardDeleteView(generics.DestroyAPIView):
             status=status.HTTP_200_OK
         )
 
+# class MotardUpdateValidationView(generics.UpdateAPIView):
+#     queryset = Motard.objects.all()
+#     serializer_class = MotardValidationSerializer
+#     permission_classes = [IsAuthenticated]
+#     lookup_field = 'id'
+
+#     def update(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'message': 'Validation réussie.', 'status': 200})
+#         return Response({'message': 'Échec.', 'errors': serializer.errors, 'status': 400}, status=400)
+
 class MotardUpdateValidationView(generics.UpdateAPIView):
     queryset = Motard.objects.all()
     serializer_class = MotardValidationSerializer
@@ -99,11 +114,41 @@ class MotardUpdateValidationView(generics.UpdateAPIView):
     lookup_field = 'id'
 
     def update(self, request, *args, **kwargs):
-        serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
+        motard = self.get_object()
+        serializer = self.get_serializer(motard, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
+            is_validated = request.data.get("is_validated")
+
+            # Construction dynamique du sujet et du message
+            subject = "VALIDATION DU COMPTE" if is_validated else "DÉSACTIVATION DU COMPTE"
+            status_message = "validé" if is_validated else "désactivé"
+
+            full_name = f"{motard.prenom} {motard.nom}" if hasattr(motard, 'prenom') and hasattr(motard, 'nom') else "Monsieur/Madame"
+            matricule = motard.matricule if hasattr(motard, 'matricule') else "XXXXXXXX"
+
+            message = (
+                    f"Bonjour Cher(e) {full_name}, matricule {matricule},\n"
+                    f"Nous vous informons que votre compte a été {status_message}. "
+                )
+            if is_validated:
+                message += "Merci d’avoir participé à la formation.\n\n"
+            else:
+                message += "Nous vous recommandons de bien vouloir nous contacter pour connaître la cause.\n\n"
+            message += "Cordialement,\nL’équipe MOTOSEKUR | BITA XPRESS | NEPA-RDC"
+            message += "\n\n +(243) 855576225 | +(243) 999473877"
+
+
+            SendMail.send(
+                subject=subject,
+                message=message,
+                recipient_list=[motard.email]
+            )
+
             return Response({'message': 'Validation réussie.', 'status': 200})
-        return Response({'message': 'Échec.', 'errors': serializer.errors, 'status': 400}, status=400)
+        
+        return Response({'message': 'Échec de la validation.', 'errors': serializer.errors, 'status': 400}, status=400)
 
 
 class ProfileImageUploadView(generics.UpdateAPIView):

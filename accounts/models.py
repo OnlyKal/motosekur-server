@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.safestring import mark_safe
 
 class Motard(AbstractUser):
+    matricule = models.CharField("Matricule", max_length=200 , unique=True, editable=True, blank=True)
     nom = models.CharField("Nom", max_length=150)
     prenom = models.CharField("Prénom", max_length=150)
     date_naissance = models.DateField("Date de naissance", null=True, blank=True)

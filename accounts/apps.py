@@ -4,4 +4,8 @@ from django.apps import AppConfig
 class AccountsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'accounts'
-    verbose_name = 'COMPTES'  # <-- Le nom qui s’affichera dans l’admin
+    verbose_name = 'COMPTES'
+   
+    def ready(self):
+        import accounts.signals
+    

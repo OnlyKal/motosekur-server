@@ -16,7 +16,7 @@ class Moto(models.Model):
     
     class Meta:
         verbose_name = "Moto"
-        verbose_name_plural = "Motos"
+        verbose_name_plural = "Motos Identifiées"
 
     def __str__(self):
         return f"{self.brand} - {self.plate_number}"

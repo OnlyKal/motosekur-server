@@ -133,16 +133,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Container(
-                color: Colors.red,
                 width: heigth(context, 1),
                 height: heigth(context, 0.4),
-                // child: Opacity(
-                //   opacity: 1,
-                child: Image.asset(
-                  "assets/images/Empty street.gif",
-                  fit: BoxFit.cover,
-                ),
-                // ),
+                child: Image.asset("assets/images/home.gif", fit: BoxFit.cover),
               ),
             ],
           ),

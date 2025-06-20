@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String apiBase = 'http://localhost:8000/';
-// const String apiBase = 'https://api.motosekur.online/';
+// const String apiBase = 'http://localhost:8000/';
+const String apiBase = 'https://api.motosekur.online/';
 
 Future postData(String endpoint, Map<String, dynamic> body) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -13,6 +13,7 @@ Future postData(String endpoint, Map<String, dynamic> body) async {
     headers: {'Content-Type': 'application/json', 'Authorization': token ?? ''},
     body: jsonEncode(body),
   );
+  print(response.body);
   return response.statusCode == 200 || response.statusCode == 201
       ? jsonDecode(response.body)
       : null;

@@ -35,6 +35,9 @@ class Motard(AbstractUser):
     
     def __str__(self):
         return f"{self.nom} {self.prenom}"
+    
+    # verbose_name = "Utilisateurs"
+    # verbose_name_plural = "Liste des utilisateurs"
 
 class UserProfile(models.Model):
     user = models.OneToOneField(Motard, on_delete=models.CASCADE, verbose_name="Utilisateur")

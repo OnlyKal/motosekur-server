@@ -40,3 +40,6 @@ class Payment(models.Model):
 
     def __str__(self):
         return f"Transaction {self.transaction_id} - {self.payment_status}"
+    class Meta:
+        verbose_name = "Paiement"
+        verbose_name_plural = "Transaction de Formation"

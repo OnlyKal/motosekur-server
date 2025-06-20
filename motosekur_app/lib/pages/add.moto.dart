@@ -376,7 +376,7 @@ class _MotoPageState extends State<MotoPage> {
     final modelController = TextEditingController();
     final plateController = TextEditingController();
     final chassisController = TextEditingController();
-
+    bool isloading = false;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -384,48 +384,63 @@ class _MotoPageState extends State<MotoPage> {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) {
-        return Padding(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text(
-                "IDENTIFIER LA MOTO",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
               ),
-              const SizedBox(height: 20),
-              inputZone(brandController, "La Marque (brand)"),
-              inputZone(modelController, "Le Modèle"),
-              inputZone(plateController, "Numéro de la Plaque"),
-              inputZone(chassisController, "Numéro du Châssis"),
-              const SizedBox(height: 20),
-              btn(context, () async {
-                final response = await postData("/api/moto/add/", {
-                  "owner": ownerId,
-                  "image": null,
-                  "brand": brandController.text,
-                  "model": modelController.text,
-                  "plate_number": plateController.text,
-                  "chassis_number": chassisController.text,
-                  "created_at": DateTime.now().toUtc().toIso8601String(),
-                });
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    "IDENTIFIER LA MOTO",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 20),
+                  inputZone(brandController, "La Marque (brand)"),
+                  inputZone(modelController, "Le Modèle"),
+                  inputZone(plateController, "Numéro de la Plaque"),
+                  inputZone(chassisController, "Numéro du Châssis"),
+                  const SizedBox(height: 20),
+                  isloading == true
+                      ? loading()
+                      : btn(context, () async {
+                          setState(() {
+                            isloading = true;
+                          });
 
-                if (response['status'] == 200) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(response['message'])));
-                  loadMotos();
-                }
-              }, "Valider"),
-              SizedBox(height: 20),
-            ],
-          ),
+                          final moto = await postData("api/moto/add/", {
+                            "owner": ownerId,
+                            "image": null,
+                            "brand": brandController.text,
+                            "model": modelController.text,
+                            "plate_number": plateController.text,
+                            "chassis_number": chassisController.text,
+                            "created_at": DateTime.now()
+                                .toUtc()
+                                .toIso8601String(),
+                          });
+
+                          if (moto != null) {
+                            loadMotos();
+                            back(context);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(moto['message'])),
+                            );
+                            setState(() {
+                              isloading = false;
+                            });
+                          }
+                        }, "VALIDER"),
+                  SizedBox(height: 20),
+                ],
+              ),
+            );
+          },
         );
       },
     );

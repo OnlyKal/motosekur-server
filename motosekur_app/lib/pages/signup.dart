@@ -36,16 +36,6 @@ class _RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    bool isValidEmail(String email) {
-      final emailRegex = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
-      return emailRegex.hasMatch(email);
-    }
-
-    if (!isValidEmail(email.text.trim())) {
-      messageInfo(context, 'Adresse e-mail invalide.');
-      return;
-    }
-
     setState(() {
       isLoading = true;
     });
@@ -55,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
       'password': password.text.trim(),
       'nom': nom.text.trim(),
       'prenom': prenom.text.trim(),
-      'email': email.text.trim(),
+      'email': "motosekur@gmail.com",
       'phone': phone.text.trim(),
       'date_naissance': dateNaissance.text.trim(),
       'lieu_naissance': lieuNaissance.text.trim(),
@@ -151,7 +141,7 @@ class _RegisterPageState extends State<RegisterPage> {
             inputDatePickerZone(context, dateNaissance, 'Date de naissance'),
             inputZone(lieuNaissance, 'Lieu de naissance'),
             inputZone(phone, 'Téléphone'),
-            inputZone(email, 'Email'),
+            // inputZone(email, 'Email'),
             inputZone(address, 'Adresse'),
             const SizedBox(height: 20),
             isLoading

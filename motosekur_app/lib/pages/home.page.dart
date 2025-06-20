@@ -217,7 +217,7 @@ class _HomePageState extends State<HomePage> {
         leading: IconButton(
           icon: const Icon(Icons.qr_code_scanner, color: Colors.white),
           tooltip: "Scanner mon QR",
-          onPressed: showQrcode,
+          onPressed: getUserMoto,
         ),
       ),
       body: ListView(
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 20),
                 GestureDetector(
-                  onTap: ()=>navigatePage(context, MyPaiement()),
+                  onTap: () => navigatePage(context, MyPaiement()),
                   child: Container(
                     padding: EdgeInsets.only(
                       left: 10,
@@ -288,7 +288,10 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(CupertinoIcons.money_dollar_circle, color: mainClr),
+                        Icon(
+                          CupertinoIcons.money_dollar_circle,
+                          color: mainClr,
+                        ),
                         SizedBox(width: 6),
                         Text(
                           "VOTRE PAIEMENT",

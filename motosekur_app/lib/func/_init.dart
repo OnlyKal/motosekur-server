@@ -273,57 +273,67 @@ void showPayment(BuildContext context) {
     ),
     isDismissible: false,
     enableDrag: false,
+    isScrollControlled: true,
     backgroundColor: Colors.white,
     builder: (context) {
-      return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              children: [
-                Center(
-                  child: Container(
-                    width: 60,
-                    height: 5,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(10),
+      return SizedBox(
+        height: heigth(context, 0.7),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Center(
+                    child: Container(
+                      width: 60,
+                      height: 5,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  "Paiement",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                Text(
-                  "Avant de passer à d'autres fonctionnalités, veuillez vous assurer d'avoir payé les frais de formation. Cela nous permettra de valider votre compte et de vous offrir une carte de participation.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey),
-                ),
-                SizedBox(height: 10),
-                Image.asset("assets/images/Paid idea.gif", height: 200),
-              ],
-            ),
-            SizedBox(height: 10),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                minimumSize: Size(double.infinity, 50),
+                  SizedBox(height: 20),
+                  Text(
+                    "Paiement",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Avant de passer à d'autres fonctionnalités, veuillez vous assurer d'avoir payé les frais de formation. Cela nous permettra de valider votre compte et de vous offrir une carte de participation.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  SizedBox(height: 10),
+                  Image.asset("assets/images/Paid idea.gif", height: 200),
+                ],
               ),
-              onPressed: () => navigatePage(context, PaymentPage()),
-              icon: Icon(Icons.payment, color: Colors.white),
-              label: Text(
-                "EFFECTUER LA TRANSACTION",
-                style: TextStyle(color: Colors.white),
+              SizedBox(height: 10),
+              ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  minimumSize: Size(double.infinity, 50),
+                ),
+                onPressed: () => navigatePage(context, PaymentPage()),
+                icon: Icon(Icons.payment, color: Colors.white),
+                label: Text(
+                  "EFFECTUER LA TRANSACTION",
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-            ),
-            SizedBox(height: 5),
-          ],
+              TextButton(
+                onPressed: () {
+                  clearSession(context);
+                },
+                child: Text("RETOUR"),
+              ),
+              SizedBox(height: 5),
+            ],
+          ),
         ),
       );
     },

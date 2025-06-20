@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import (
     AddMotoView,
+    GetMotosByOwnerView,
     ImageMotoUploadView,
     ListUserMotosView,
     GetMotoByIdView,
@@ -17,6 +18,8 @@ urlpatterns = [
     path('plate/<str:plate_number>/', GetMotoByPlateView.as_view(), name='get-moto-by-plate'),
     path('update/<int:pk>/', UpdateMotoView.as_view(), name='update-moto'),
     path('remove/<int:id>/', DeleteMotoView.as_view(), name='remove-moto'),
-    path('upload/<int:id>/', ImageMotoUploadView.as_view(), name='upload-moto-image')
+    path('upload/<int:id>/', ImageMotoUploadView.as_view(), name='upload-moto-image'),
+    path('my/', GetMotosByOwnerView.as_view()),
+
 ]
 

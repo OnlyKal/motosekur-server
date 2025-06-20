@@ -30,4 +30,9 @@ class PaymentViewSet(generics.CreateAPIView):
                 "data": e.detail
             }, status=status.HTTP_400_BAD_REQUEST)
 
-
+class GetPaymentsByMatriculeView(generics.ListAPIView):
+    serializer_class = PaymentSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    def get_queryset(self):
+        motard_matricule = self.kwargs.get('motard_matricule')
+        return Payment.objects.filter(motard_matricule=motard_matricule)

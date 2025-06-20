@@ -5,7 +5,7 @@ from .models import Payment
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ('transaction_id', 'payment_status', 'amount', 'currency', 'payment_date', 'payer_name', 'payment_method', 'order_id')
+    list_display = ('transaction_id', 'motard_matricule', 'payment_status', 'amount', 'currency', 'payment_date', 'payer_name', 'payment_method', 'order_id')
     search_fields = ('transaction_id', 'payer_name', 'order_id')
     list_filter = ('payment_status', 'payment_method', 'currency')
     readonly_fields = ('created_at', 'updated_at')
@@ -20,7 +20,7 @@ class PaymentAdmin(admin.ModelAdmin):
 
         # Titres des colonnes
         headers = [
-            'Transaction ID', 'Statut', 'Montant', 'Devise', 'Date de Paiement',
+            'Transaction ID','Matricule' 'Statut', 'Montant', 'Devise', 'Date de Paiement',
             'Nom du Payeur', 'Compte du Payeur', 'Méthode de Paiement',
             'Référence Banque', 'Code Confirmation', 'Commande', 'Frais',
             'Signature', 'Notes', 'Créé le', 'Mis à jour'
@@ -31,6 +31,7 @@ class PaymentAdmin(admin.ModelAdmin):
         for p in queryset:
             ws.append([
                 p.transaction_id,
+                p.motard_matricule,
                 p.payment_status,
                 str(p.amount),
                 p.currency,

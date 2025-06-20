@@ -26,24 +26,30 @@ class AddMotoView(generics.CreateAPIView):
 class ListUserMotosView(generics.ListAPIView):
     serializer_class = MotoSerializer
     permission_classes = [permissions.IsAuthenticated]
-
     def get_queryset(self):
         return Moto.objects.filter(owner=self.request.user)
 
 class GetMotoByIdView(generics.RetrieveAPIView):
     serializer_class = MotoSerializer
     permission_classes = [permissions.IsAuthenticated]
-
     def get_queryset(self):
         return Moto.objects.filter(owner=self.request.user)
 
 class GetMotoByPlateView(generics.GenericAPIView):
     serializer_class = MotoSerializer
     permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request, plate_number):
         moto = get_object_or_404(Moto, plate_number=plate_number, owner=request.user)
         serializer = self.get_serializer(moto)
+        return Response(serializer.data)
+    
+class GetMotosByOwnerView(generics.GenericAPIView):
+    serializer_class = MotoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request): 
+        motos = Moto.objects.filter(owner=request.user)
+        serializer = self.get_serializer(motos, many=True)
         return Response(serializer.data)
 
 class UpdateMotoView(generics.UpdateAPIView):

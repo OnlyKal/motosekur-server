@@ -4,6 +4,32 @@ from django.contrib.auth import get_user_model
 
 
 
+
+class Montant(models.Model):
+    montant_usd = models.CharField(
+        max_length=100,
+        verbose_name="Montant en USD",
+        null=True,
+        blank=True
+    )
+    montant_cdf = models.CharField(
+        max_length=100,
+        verbose_name="Montant en CDF",
+        null=True,
+        blank=True
+    )
+    actif = models.BooleanField(
+        default=False,
+        verbose_name="Montant Actif"
+    )
+    def __str__(self):
+        return f"{self.montant_usd} {'(Actif)' if self.actif else ''}"
+
+    class Meta:
+        verbose_name = "Montant"
+        verbose_name_plural = "Montants"
+        
+        
 User = get_user_model()
 class Payment(models.Model):
     TRANSACTION_STATUS_CHOICES = [
@@ -14,8 +40,8 @@ class Payment(models.Model):
 
     PAYMENT_METHOD_CHOICES = [
         ('card', 'Carte'),
-        ('mobile_money', 'Mobile Money'),
-        ('bank_transfer', 'Virement Bancaire'),
+        ('mobile', 'Mobile Money'),
+        ('bank', 'Virement Bancaire'),
         ('cash', 'Paiement Cash')
     ]
 
@@ -31,9 +57,9 @@ class Payment(models.Model):
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, verbose_name="Méthode de paiement")
     bank_reference = models.CharField(max_length=100, blank=True, null=True, verbose_name="Référence bancaire")
     confirmation_code = models.CharField(max_length=100, blank=True, null=True, verbose_name="Code de confirmation")
-    order_id = models.CharField(max_length=100, verbose_name="Identifiant de commande")
-    fee = models.DecimalField(max_digits=12, decimal_places=2, default=0, verbose_name="Frais appliqués")
-    signature = models.CharField(max_length=255, verbose_name="Signature numérique")
+    order_id = models.CharField(max_length=100,null=True, verbose_name="Identifiant de commande")
+    fee = models.DecimalField(max_digits=12,null=True, decimal_places=2, default=0, verbose_name="Frais appliqués")
+    signature = models.CharField(max_length=255,null=True, verbose_name="Signature numérique")
     notes = models.TextField(blank=True, null=True, verbose_name="Remarques")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Date de création")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Date de mise à jour")
@@ -43,3 +69,5 @@ class Payment(models.Model):
     class Meta:
         verbose_name = "Paiement"
         verbose_name_plural = "Transaction de Formation"
+        
+

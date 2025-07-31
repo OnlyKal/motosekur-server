@@ -1,6 +1,4 @@
-import datetime
-import random
-import string
+
 from rest_framework import serializers
 from funcs.base64 import Base64ImageField
 from motos.models import User
@@ -27,16 +25,6 @@ class MotardSerializer(serializers.ModelSerializer):
             'profile',  
             'is_validated',
         ]
-    # def create(self, validated_data):
-    #     username = validated_data.get('username', '')
-    #     today_str = datetime.timezone.now().strftime("%y%m%d")
-    #     random_code = ''.join(random.choices(string.ascii_uppercase + string.digits, k=4))
-    #     username_prefix = username[:3].upper()
-    #     matricule = f"MOTOSEKUR{today_str}-{random_code}-{username_prefix}"
-
-    #     validated_data['matricule'] = matricule
-    #     user = Motard.objects.create_user(**validated_data)
-    #     return user
         
 class MotardValidationSerializer(serializers.ModelSerializer):
     class Meta:

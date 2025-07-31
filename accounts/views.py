@@ -28,7 +28,6 @@ class LoginView(APIView):
 
 class RegisterView(APIView):  
     permission_classes = [AllowAny]
-
     def post(self, request):
         s = MotardSerializer(data=request.data)
         if s.is_valid():
@@ -48,14 +47,14 @@ class RegisterView(APIView):
 
 
 
-# READ — List all motards  GET
+
 class MotardListView(generics.ListAPIView):
     serializer_class = MotardSerializer
     permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return Motard.objects.filter(type_user='motard')
 
-# READ — Retrieve single motard by ID GET
+
 class MotardDetailView(generics.RetrieveAPIView):
     queryset = Motard.objects.all()
     serializer_class = MotardSerializer

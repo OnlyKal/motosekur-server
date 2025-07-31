@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.http import HttpResponse
 import openpyxl
-from .models import Payment
+from .models import Montant, Payment
 
 @admin.register(Payment)
 class PaymentAdmin(admin.ModelAdmin):
@@ -55,3 +55,10 @@ class PaymentAdmin(admin.ModelAdmin):
         response['Content-Disposition'] = 'attachment; filename=paiments_export.xlsx'
         wb.save(response)
         return response
+    
+@admin.register(Montant)
+class MontantAdmin(admin.ModelAdmin):
+    list_display = ('montant_usd','montant_cdf', 'actif')
+    list_filter = ('actif',)
+    search_fields = ('montant',)
+    list_editable = ('actif',)  

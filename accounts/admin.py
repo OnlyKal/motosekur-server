@@ -5,7 +5,7 @@ from .models import Motard
 @admin.register(Motard)
 class MotardAdmin(UserAdmin):
     model = Motard
-    list_display = ("_profile",'matricule', 'nom', 'prenom', 'username', 'email', 'phone','type_user' ,'is_validated', 'is_staff', 'is_active')
+    list_display = ("_profile",'id','matricule', 'nom', 'prenom', 'username', 'email', 'phone','type_user' ,'is_validated', 'is_staff', 'is_active')
     list_filter = ('is_validated', 'is_staff', 'is_active')
     search_fields = ('nom', 'prenom', 'username', 'email', 'phone')
     ordering = ('nom', 'prenom')

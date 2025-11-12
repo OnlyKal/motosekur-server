@@ -5,7 +5,7 @@ from datetime import datetime
 import random
 import string
 
-from .models import Motard  # ici, l'import est OK car apps est prêt à ce moment
+from .models import Motard
 
 @receiver(pre_save, sender=Motard)
 def generate_matricule(sender, instance, **kwargs):

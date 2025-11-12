@@ -1,8 +1,8 @@
 
+from funcs.base64 import Base64ImageField
 from rest_framework import serializers
 from funcs.base64 import Base64ImageField
-from motos.models import User
-from .models import Motard
+from .models import Montant, Moto, Payment, User,Motard, Video
 
 class MotardSerializer(serializers.ModelSerializer):
     profile = serializers.ImageField(read_only=True)
@@ -51,3 +51,38 @@ class OtherImageUploadSerializer(serializers.ModelSerializer):
         fields = ['autre_piece']
         
         
+
+
+
+class MotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Moto
+        fields = '__all__'
+        read_only_fields = ['owner', 'created_at']
+        
+class ImageMotoUploadSerializer(serializers.ModelSerializer):
+    image = Base64ImageField(required=True)
+    class Meta:
+        model = User
+        fields = ['image']
+        
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
+        
+class MontantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Montant
+        fields = '__all__'
+
+    def validate(self, attrs):
+        if attrs.get('actif'):
+            Montant.objects.filter(actif=True).update(actif=False)
+        return super().validate(attrs)
+
+class VideoSerializer(serializers.ModelSerializer):
+    coverImage = serializers.ImageField(source='cover_image')
+    class Meta:
+        model = Video
+        fields = ['id', 'titre', 'categorie', 'coverImage', 'video', 'date_creation']

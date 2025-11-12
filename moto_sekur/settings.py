@@ -28,11 +28,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'accounts',
-    'motos',
-    'payments',
-    'cards',
-    'trainings',
-    'permissions',
     'api'
 ]
 
@@ -132,10 +127,17 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 LANGUAGE_CODE = 'fr'
-TIME_ZONE = 'Africa/Kinshasa'  # Ou autre fuseau selon ta région
+TIME_ZONE = 'Africa/Kinshasa' 
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+LANGUAGES = [
+    ('fr', 'Français'),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

@@ -45,6 +45,7 @@ urlpatterns = [
     path('api/', include('api.urls')),
 ]
 
+
 urlpatterns += i18n_patterns(
     path('', admin.site.urls),
 )
